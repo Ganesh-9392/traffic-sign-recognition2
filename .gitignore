@@ -1,6 +1,5 @@
-__pycache__/
-*.pyc
-.venv/
-.DS_Store
-.idea/
-data/
+# Keep everything in data ignored...
+data/*
+
+# ...but allow this specific file
+!data/GTSRB/Label_names.csv
