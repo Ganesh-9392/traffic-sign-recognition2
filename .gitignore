@@ -1,5 +1,10 @@
-# Keep everything in data ignored...
-data/*
-
-# ...but allow this specific file
-!data/GTSRB/Label_names.csv
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+.idea/
+data/
+models/*.h5
+models/*.keras
+models/*.hdf5
+models/*.ckpt

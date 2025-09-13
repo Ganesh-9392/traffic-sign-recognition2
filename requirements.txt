@@ -1,6 +1,14 @@
+cat > requirements.txt << 'EOF'
 streamlit
-tensorflow
-numpy
-pillow
-matplotlib
+tensorflow==2.20.0
 opencv-python-headless
+scikit-learn
+numpy
+pandas
+matplotlib
+Pillow
+altair
+scikit-image
+joblib
+tqdm
+EOF
