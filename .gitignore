@@ -1,10 +1,23 @@
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
 .venv/
-.DS_Store
+venv/
+env/
+
+# PyCharm / JetBrains IDE
 .idea/
-data/
-models/*.h5
-models/*.keras
-models/*.hdf5
-models/*.ckpt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large model files (optional)
+# model.h5
