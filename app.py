@@ -3,7 +3,29 @@ import numpy as np
 import pandas as pd
 import cv2
 import altair as alt
+import gdown
+import os
 from tensorflow.keras.models import load_model
+
+# -----------------------------
+# Ensure directories exist
+# -----------------------------
+os.makedirs("models", exist_ok=True)
+os.makedirs("data/GTSRB", exist_ok=True)
+
+# -----------------------------
+# Download model and labels if not exist
+# -----------------------------
+if not os.path.exists("models/tsr_model.keras"):
+    model_url = "https://drive.google.com/uc?id=1S3_VfvtFJ5VYdFMkW2wqRtTtrp1f28C3"
+
+    output_model = "models/tsr_model.keras"
+    gdown.download(model_url, output_model, quiet=False)
+
+if not os.path.exists("data/GTSRB/label_names.csv"):
+    labels_url = "https://drive.google.com/uc?id=1CzsaGd_Epfcg9I_lFGhoUk7_ZPzyTGec"
+    output_labels = "data/GTSRB/label_names.csv"
+    gdown.download(labels_url, output_labels, quiet=False)
 
 # -----------------------------
 # Load model and labels
@@ -42,7 +64,7 @@ st.markdown(
     """
     <div style="text-align:center; padding: 20px;">
         <h1 style="color:#FF4B4B;">🚦 Traffic Sign Recognition</h1>
-        <p style="font-size:18px;">Upload a traffic sign image and let our deep learning model predict its class with confidence.</p>
+        <p style="font-size:18px;">Upload a traffic sign image and get prediction with confidence score.</p>
     </div>
     """,
     unsafe_allow_html=True
@@ -52,7 +74,7 @@ st.markdown(
 # File Uploader
 # -----------------------------
 uploaded_files = st.file_uploader(
-    "📤 Upload one or more images",
+    "📤 Upload image(s):",
     type=["jpg", "jpeg", "png"],
     accept_multiple_files=True
 )
@@ -60,24 +82,19 @@ uploaded_files = st.file_uploader(
 # -----------------------------
 # Prediction Section
 # -----------------------------
-model = tf.keras.models.load_model('models/traffic_model.h5')
-
-with open('data/label_names.csv', 'r') as f:
-    labels = f.readlines()
-
+if uploaded_files:
+    model = load_trained_model()
+    labels = load_labels()
 
     for uploaded_file in uploaded_files:
-        # Read file
         file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
         img = cv2.imdecode(file_bytes, 1)
 
-        # Preprocess & predict
         input_img = preprocess_image(img)
         preds = model.predict(input_img, verbose=0)
         class_id = np.argmax(preds)
         confidence = float(np.max(preds))
 
-        # Layout: Image on left, Prediction on right
         col1, col2 = st.columns([1, 2])
         with col1:
             st.image(img, caption="Uploaded Image", width=250)
@@ -85,7 +102,7 @@ with open('data/label_names.csv', 'r') as f:
         with col2:
             st.markdown(
                 f"""
-                <div style="padding:15px; border-radius:10px; background-color:#2ECC71; color:white; font-size:20px;">
+                <div style="padding:15px; background-color:#2ECC71; color:white; font-size:20px;">
                     ✅ Prediction: <b>{labels[class_id]}</b> (Class {class_id})<br>
                     Confidence: {confidence:.2%}
                 </div>
@@ -93,7 +110,6 @@ with open('data/label_names.csv', 'r') as f:
                 unsafe_allow_html=True
             )
 
-            # ✅ Probability Chart (Top 5 only with custom colors)
             prob_df = pd.DataFrame({
                 "Class": [labels[i] for i in range(len(preds[0]))],
                 "Probability": preds[0]
@@ -103,7 +119,7 @@ with open('data/label_names.csv', 'r') as f:
 
             color_scale = alt.Scale(
                 domain=["Top Prediction", "Others"],
-                range=["#2ECC71", "#3498DB"]  # Green for top, Blue for others
+                range=["#2ECC71", "#3498DB"]
             )
 
             chart = (
