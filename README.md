@@ -1,15 +1,28 @@
-# Traffic Sign Recognition
+# 🚦 Traffic Sign Recognition
 
-Deep learning CNN model for classifying 43 traffic sign classes (GTSRB).
-- Model: TensorFlow / Keras
-- Web app: Streamlit (app.py) for image upload + top-5 predictions chart
-- Real-time demo: predict_webcam.py using OpenCV
+A machine learning project to classify traffic sign images using **TensorFlow** and deploy the model using **Streamlit**.
 
-## Run locally
-1. Create virtualenv and activate
-2. Install requirements:
-   pip install -r requirements.txt
-3. Start web app:
-   streamlit run app.py
+---
 
-> Note: dataset files are large and are not included in this repo. Place them under `data/GTSRB/` locally if needed.
+## 📌 Features
+- Upload an image of a traffic sign
+- Model predicts the correct traffic sign class
+- Shows confidence score
+- Simple, interactive web app built with Streamlit
+
+---
+
+## 🛠️ Technologies Used
+- Python
+- TensorFlow / Keras
+- Streamlit
+- NumPy
+- Pillow
+
+---
+
+## 🚀 How to Run Locally
+1. Clone this repo:
+   ```bash
+   git clone https://github.com/Ganesh-9392/traffic-sign-recognition2.git
+   cd traffic-sign-recognition2

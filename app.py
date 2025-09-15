@@ -60,9 +60,11 @@ uploaded_files = st.file_uploader(
 # -----------------------------
 # Prediction Section
 # -----------------------------
-if uploaded_files:
-    model = load_trained_model()
-    labels = load_labels()
+model = tf.keras.models.load_model('models/traffic_model.h5')
+
+with open('data/label_names.csv', 'r') as f:
+    labels = f.readlines()
+
 
     for uploaded_file in uploaded_files:
         # Read file
