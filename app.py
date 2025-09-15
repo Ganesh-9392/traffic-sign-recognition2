@@ -16,16 +16,25 @@ os.makedirs("data/GTSRB", exist_ok=True)
 # -----------------------------
 # Download model and labels if not exist
 # -----------------------------
-if not os.path.exists("models/tsr_model.keras"):
-    model_url = "https://drive.google.com/uc?id=1S3_VfvtFJ5VYdFMkW2wqRtTtrp1f28C3"
+model_url = "https://drive.google.com/uc?id=1A2B3C4D5E6F7G8H9I0J"
+gdown.download(model_url, "models/tsr_model.keras", quiet=False)
 
-    output_model = "models/tsr_model.keras"
-    gdown.download(model_url, output_model, quiet=False)
+# Download the labels
+labels_url = "https://drive.google.com/uc?id=9Z8Y7X6W5V4U3T2S1R0Q"
+gdown.download(labels_url, "data/GTSRB/label_names.csv", quiet=False)
 
-if not os.path.exists("data/GTSRB/label_names.csv"):
-    labels_url = "https://drive.google.com/uc?id=1CzsaGd_Epfcg9I_lFGhoUk7_ZPzyTGec"
-    output_labels = "data/GTSRB/label_names.csv"
-    gdown.download(labels_url, output_labels, quiet=False)
+
+
+file_id = "1S3_VfvtFJ5VYdFMkW2wqRtTtrp1f28C3"
+
+# Construct the download URL
+download_url = f"https://drive.google.com/uc?id={file_id}"
+
+# Specify the output path
+output_path = "models/tsr_model.keras"
+
+# Download the file
+gdown.download(download_url, output_path, quiet=False)
 
 # -----------------------------
 # Load model and labels
