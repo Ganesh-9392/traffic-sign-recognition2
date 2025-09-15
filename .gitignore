@@ -9,7 +9,7 @@ __pycache__/
 venv/
 env/
 
-# PyCharm / JetBrains IDE
+# IDE settings
 .idea/
 
 # OS files
@@ -19,5 +19,9 @@ Thumbs.db
 # Logs
 *.log
 
-# Large model files (optional)
-# model.h5
+# Ignore dataset pickle files (too large for GitHub)
+*.pickle
+data/GTSRB/*.pickle
+
+# Allow this one CSV (needed by Streamlit app)
+!data/GTSRB/label_names.csv
